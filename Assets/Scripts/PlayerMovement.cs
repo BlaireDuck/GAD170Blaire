@@ -18,7 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public float speedV = 2.0f;
     public float yaw = 0.0f;
     public float pitch = 0.0f;
-
+    public bool canBoost;
+ 
     // This must be linked to the object that has the "Character Controller" in the inspector. You may need to add this component to the object
     public CharacterController controller;
     private Vector3 velocity;
@@ -43,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
             // ...then this searches the components on the gameobject and gets a reference to the CharacterController class
             controller = GetComponent<CharacterController>();
         }
+
+        canBoost = false;
     }
  
     private void Update()
@@ -80,5 +83,33 @@ public class PlayerMovement : MonoBehaviour
  
         // Finally, it applies that vector it just made to the character
         controller.Move(move * speed * Time.deltaTime + velocity * Time.deltaTime);
+
+        if(isGrounded == false)
+        {
+
+            canBoost = true;
+
+        }
+        else
+        {
+
+            canBoost = false;
+
+        }
+        
+
+        if((isGrounded == false) && (canBoost == true))
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                speed = 40f;
+            }
+        }
+        else
+        {
+            speed = 17f;
+        }
+      
+        
     }
 }
